@@ -1,4 +1,4 @@
-package edu.swjtuhc.cgServiceImpl;
+package edu.swjtuhc.cgService.serviceImpl;
 
 import java.util.Date;
 
