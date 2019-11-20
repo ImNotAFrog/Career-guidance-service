@@ -53,11 +53,10 @@ public class AuthServiceImpl implements AuthService {
     public String login(String username, String password) {
         UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
         final Authentication authentication = authenticationManager.authenticate(upToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-       
-        
+        SecurityContextHolder.getContext().setAuthentication(authentication);        
         UserDetails userDetails = null;
         final SysUser user = userMapper.getUserByAccount(username);
+
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
@@ -99,6 +98,26 @@ public class AuthServiceImpl implements AuthService {
 		UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(account, password);
 	    authenticationManager.authenticate(upToken);
 	    return true;
+	}
+
+
+	@Override
+	public int create(SysUser user) {
+		// TODO Auto-generated method stub
+		SysUser u = userMapper.getUserByAccount(user.getAccount());
+		if(u!=null&&u.getuId()!=null&&u.getuId()>0) {
+			return -1;
+		}else if(user.getRoles().size()<1){
+			return -2;
+		}else if(user.getPassword()==null||user.getPassword().length()<1){
+			return -3;
+		}else {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			user.setPassword(encoder.encode(user.getPassword()));
+			user.setLastPasswordResetDate(new Date());
+			user.setuId(getNextId());
+		}		
+		return userMapper.createUser(user);
 	}
     
 }
