@@ -4,14 +4,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.swjtuhc.cgService.model.JwtAuthenticationRequest;
 import edu.swjtuhc.cgService.model.JwtAuthenticationResponse;
+import edu.swjtuhc.cgService.model.SysUser;
 import edu.swjtuhc.cgService.service.AuthService;
 import net.sf.json.JSONObject;
 
@@ -25,11 +28,14 @@ public class AuthController{
     private AuthService authService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String createAuthenticationToken(
+    @ResponseBody
+    public JSONObject createAuthenticationToken(
             @RequestBody JwtAuthenticationRequest authenticationRequest){
     	JSONObject result = new JSONObject();
     	try {
-    		final String token = authService.login(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+    		System.out.println(authenticationRequest.getAccount());
+    		System.out.println(authenticationRequest.getPassword());
+    		final String token = authService.login(authenticationRequest.getAccount(), authenticationRequest.getPassword());
     		JwtAuthenticationResponse jwt = new JwtAuthenticationResponse(token);
     		result.put("state", "success");
     		result.put("token", jwt.getToken());
@@ -42,25 +48,44 @@ public class AuthController{
         
         
         // Return the token
-        return result.toString();
-    }
-
-    @RequestMapping(value = "/refresh", method = RequestMethod.GET)
-    public ResponseEntity<?> refreshAndGetAuthenticationToken(
-            HttpServletRequest request) throws AuthenticationException{
-        String token = request.getHeader(tokenHeader);
-        String refreshedToken = authService.refresh(token);
-        if(refreshedToken == null) {
-            return ResponseEntity.badRequest().body(null);
-        } else {
-            return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
-        }
+        return result;
     }
 
     
-    @RequestMapping(value = "/logout",method = RequestMethod.GET)
-    public void logout(HttpServletRequest request) throws AuthenticationException{
-        
-    	authService.logout();
+    @RequestMapping(value = "/register",method=RequestMethod.POST)
+    @ResponseBody
+    public JSONObject register(@RequestBody SysUser user) {
+    	
+    	JSONObject result = new JSONObject(); 
+    	try {
+    		int i = authService.create(user);
+        	if(i==-3) {
+        		result.put("state","fail");
+        		result.put("msg", "密码不能为空");
+        	}else if(i==-2) {
+        		result.put("state","fail");
+        		result.put("msg", "角色不能为空");
+        	}else if(i==-1) {
+        		result.put("state","fail");
+        		result.put("msg", "账号已存在");
+        	}else if(i==0) {
+        		result.put("state","fail");
+        		result.put("msg", "数据库内部错误");
+        	}else if(i==1) {
+        		result.put("state","success");
+        		result.put("msg", "注册成功");
+        	}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("state","fail");
+    		result.put("msg", "服务器内部错误");
+		}    	
+		return result;    	
+    }
+    
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value="/getAllUsers",method = RequestMethod.GET)    
+    public String getAll() {
+    	return "success";
     }
 }

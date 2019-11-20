@@ -48,5 +48,11 @@ public class SysUser{
 		this.lastPasswordResetDate = lastPasswordResetDate;
 	}
 
+	@Override
+	public String toString() {
+		return "SysUser [uId=" + uId + ", account=" + account + ", password=" + password + ", roles=" + roles
+				+ ", lastPasswordResetDate=" + lastPasswordResetDate + "]";
+	}
+
 	
 }
