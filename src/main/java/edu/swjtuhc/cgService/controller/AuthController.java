@@ -33,8 +33,6 @@ public class AuthController{
             @RequestBody JwtAuthenticationRequest authenticationRequest){
     	JSONObject result = new JSONObject();
     	try {
-    		System.out.println(authenticationRequest.getAccount());
-    		System.out.println(authenticationRequest.getPassword());
     		final String token = authService.login(authenticationRequest.getAccount(), authenticationRequest.getPassword());
     		JwtAuthenticationResponse jwt = new JwtAuthenticationResponse(token);
     		result.put("state", "success");
