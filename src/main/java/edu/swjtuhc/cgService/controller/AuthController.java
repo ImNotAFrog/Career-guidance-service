@@ -26,13 +26,13 @@ public class AuthController{
 
     @Autowired
     private AuthService authService;
-
+ 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject createAuthenticationToken(
-            @RequestBody JwtAuthenticationRequest authenticationRequest){
+    public JSONObject createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest)
+    {
     	JSONObject result = new JSONObject();
-    	try {
+    	try {                                                                                                                                                                                                                                                                            
     		final String token = authService.login(authenticationRequest.getAccount(), authenticationRequest.getPassword());
     		JwtAuthenticationResponse jwt = new JwtAuthenticationResponse(token);
     		result.put("state", "success");
@@ -81,9 +81,13 @@ public class AuthController{
 		return result;    	
     }
     
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value="/getAllUsers",method = RequestMethod.GET)    
+	    @PreAuthorize("hasRole('ROLE_ADMIN')")
+	    @RequestMapping(value="/getAllUsers",method = RequestMethod.GET)    
     public String getAll() {
     	return "success";
     }
-}
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value="/getAllUserse",method = RequestMethod.GET)    
+    public String getAlle() {
+    	return "飒飒撒";
+}}
