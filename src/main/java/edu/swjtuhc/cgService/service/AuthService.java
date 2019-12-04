@@ -9,4 +9,6 @@ public interface AuthService {
     void logout();
     Long getNextId();
     boolean verifyPassword(String account, String password);
+    
+    
 }

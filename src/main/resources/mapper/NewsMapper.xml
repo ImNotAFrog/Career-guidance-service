@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.swjtuhc.cgService.mapper.NewsMapper">
+	<resultMap id="NewsResultMap"
+	type="edu.swjtuhc.cgService.model.News">
+	<id column="n_id" property="nId" jdbcType="BIGINT" />
+		<result column="nName" property="nName" jdbcType="VARCHAR" />
+		<result column="nUrl" property="nUrl" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="News_Column_List">
+		n_id,nName,nUrl
+	</sql>
+
+
+	<select id="getNewsByUrl" parameterType="java.lang.String"
+		resultMap="NewsResultMap">
+		select
+		<include refid="News_Column_List"></include>
+		from news
+		where nUrl = #{nUrl}
+	</select>
+	<select id="getNewsByName" parameterType="java.lang.String"
+		resultMap="NewsResultMap">
+		select
+		<include refid="News_Column_List"></include>
+		from news
+		where nName = #{nName}
+	</select>
+
+	<insert id="createNews"
+		parameterType="edu.swjtuhc.cgService.model.News">
+		INSERT INTO
+		news
+		(n_id,nName,nUrl)
+		values
+		(#{nId},#{nName},#{nUrl})
+	</insert>
+	
+	<insert id="updateNews"
+		parameterType="edu.swjtuhc.cgService.model.News">
+		UPDATE news
+		SET nName = #{nName}
+		WHERE  n_id = #{nId}
+	</insert>
+	
+</mapper> 
