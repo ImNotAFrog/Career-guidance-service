@@ -1,7 +1,9 @@
 package edu.swjtuhc.cgService.serviceImpl;
 
 import java.util.Date;
+import java.util.List;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import edu.swjtuhc.cgService.mapper.UserMapper;
+import edu.swjtuhc.cgService.model.Article;
 import edu.swjtuhc.cgService.model.JwtUser;
 import edu.swjtuhc.cgService.model.SysUser;
 import edu.swjtuhc.cgService.service.AuthService;
@@ -119,6 +122,66 @@ public class AuthServiceImpl implements AuthService {
 		}		
 		return userMapper.createUser(user);
 	}
+	public int changepassword(SysUser user) {
+		// TODO Auto-generated method stub
+		SysUser u = userMapper.getUserByAccount(user.getAccount());
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		if(user.getAccount()==null||user.getAccount().length()<1) {
+			return -1;
+		}else if(user.getPassword()==null||user.getPassword().length()<1){
+			return -2;
+		}else if(user.getNewpassword()==null||user.getNewpassword().length()<1){
+			return -6;
+		}
+		else if(u==null){
+			return -3;
+		}
+		else if(!encoder.matches(user.getPassword(),u.getPassword())){
+			return -4;
+		}else {
+			BCryptPasswordEncoder encoder1 = new BCryptPasswordEncoder();
+			
+			user.setNewpassword(encoder1.encode(user.getNewpassword()));
+			user.setLastPasswordResetDate(new Date());
+		}
+		return userMapper.changePassword(user);
+	}
+
+
+	@Override
+	public List<SysUser> getAllUserList() {
+		// TODO Auto-generated method stub
+
+		
+		return userMapper.selectUserById();
+	}
+
+
+	@Override
+	public List<SysUser> getUserList() {
+		// TODO Auto-generated method stub
+		return userMapper.selectUser();
+	}
+
+
+	@Override
+	public int deleteUser(SysUser user) {
+		// TODO Auto-generated method stub
+		if(user.getuId()==null) {
+			return -1;
+		}else{
+			return userMapper.deleteUser(user);
+		}
+	}
+
+
+
+
+
+	
+
+
     
 }
 
