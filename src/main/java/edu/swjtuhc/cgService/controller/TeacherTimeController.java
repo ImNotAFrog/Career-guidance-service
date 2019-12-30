@@ -31,10 +31,10 @@ public class TeacherTimeController{
     	
     	JSONObject result = new JSONObject(); 
     	try {
-    		int i = TeacherTimeService.createtime(t);
+    		int i = TeacherTimeService.createTime(t);
         	if(i==-1) {
         		result.put("state","fail");
-        		result.put("msg", "星期几不能为空");
+        		result.put("msg", "时间不能为空");
         	}else if(i==0) {
         		result.put("state","fail");
         		result.put("msg", "数据库内部错误");
@@ -49,5 +49,56 @@ public class TeacherTimeController{
 		}    	
 		return result;    	
 }
-   
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value="/updatetime",method = RequestMethod.POST)
+    public JSONObject updatetime(@RequestBody TeacherTime t) {
+    	
+    	JSONObject result = new JSONObject(); 
+    	try {
+    		int i = TeacherTimeService.updateTime(t);
+        	if(i==0) {
+        		result.put("state","fail");
+        		result.put("msg", "数据库内部错误");
+        	}else if(i==1) {
+        		result.put("state","success");
+        		result.put("msg", "修改成功");
+        	}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("state","fail");
+    		result.put("msg", "服务器内部错误");
+		}    	
+		return result;    }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value="/deletetime",method = RequestMethod.POST)
+    public JSONObject deletetime(@RequestBody TeacherTime t) {
+    	
+    	JSONObject result = new JSONObject(); 
+    	try {
+    		int i = TeacherTimeService.deleteTime(t);
+        	 if(i==0) {
+        		result.put("state","fail");
+        		result.put("msg", "数据库内部错误");
+        	}else if(i==1) {
+        		result.put("state","success");
+        		result.put("msg", "删除成功");
+        	}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("state","fail");
+    		result.put("msg", "服务器内部错误");
+		}    	
+		return result;    	
+} @PreAuthorize("hasRole('ROLE_ADMIN')")
+@RequestMapping(value="/gettime",method = RequestMethod.GET)
+public List<TeacherTime> getTimeList() {
+	
+	return TeacherTimeService.getTimeList();    	
+}
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+@RequestMapping(value="/getname",method = RequestMethod.GET)
+public List<TeacherTime> getNameList() {
+	
+	return TeacherTimeService.getNameList();    	
+}
     }

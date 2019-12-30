@@ -153,10 +153,10 @@ public class AuthController{
 	}
 	    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	    @RequestMapping(value="/getAlluser",method = RequestMethod.GET)
-	    public List<SysUser> getAllList(@RequestBody SysUser a) {
-	    	
+	    public List<SysUser> getAllList(SysUser sysuser) {
+	    	System.out.println(sysuser);
 			return authService.getAllUserList();    	
-	}
+	}  
 	    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	    @RequestMapping(value="/getuser",method = RequestMethod.GET)
 	    public List<SysUser> getList() {

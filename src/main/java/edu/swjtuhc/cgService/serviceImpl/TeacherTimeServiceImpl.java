@@ -37,16 +37,47 @@ public class TeacherTimeServiceImpl implements TeacherTimeService {
 	}
 
 
-	public int createtime(TeacherTime t) {
+	public int createTime(TeacherTime t) {
 		// TODO Auto-generated method stub
-		if(t.getWeek()==null||t.getWeek().length()<1){
+		if(t.getFreeDown()==null||t.getFreeTop()==null){
 			return -1;
 		}else {
 			t.settId(getNextId());
+			return TeacherTimeMapper.createTime(t);
 		}	
-		return TeacherTimeMapper.createTime(t);
+		
 	}
 
+
+	@Override
+	public int updateTime(TeacherTime t) {
+		// TODO Auto-generated method stub
+		
+			return TeacherTimeMapper.updateTime(t);
+		
+		
+	}
+	public int deleteTime(TeacherTime t) {
+		// TODO Auto-generated method stub
+		
+			return TeacherTimeMapper.deleteTime(t);
+		
+		
+	}
+
+
+	@Override
+	public List<TeacherTime> getTimeList() {
+		// TODO Auto-generated method stub
+		return TeacherTimeMapper.selectTime();
+	}
+
+
+	@Override
+	public List<TeacherTime> getNameList() {
+		// TODO Auto-generated method stub
+		return TeacherTimeMapper.selectName();
+	}
 	
 
 

@@ -7,5 +7,9 @@ import edu.swjtuhc.cgService.model.TeacherTime;
 
 public interface TeacherTimeService {
 	  Long getNextId();
-	  int createtime(TeacherTime t);
+	  int createTime(TeacherTime t);
+	  int updateTime(TeacherTime t);
+	  int deleteTime(TeacherTime t);
+	  public List<TeacherTime> getTimeList();
+	  public List<TeacherTime> getNameList();
 }

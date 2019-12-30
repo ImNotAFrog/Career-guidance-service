@@ -152,7 +152,7 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public List<SysUser> getAllUserList() {
 		// TODO Auto-generated method stub
-
+		
 		
 		return userMapper.selectUserById();
 	}

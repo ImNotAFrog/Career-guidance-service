@@ -109,7 +109,7 @@ public class ArticleController{
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/getAllarticle",method = RequestMethod.GET)
     public List<Article> getAllList() {
-    	
+    	System.out.println();
 		return articleService.getAllArticlesList();    	
 }
     @PreAuthorize("hasRole('ROLE_ADMIN')")
