@@ -5,14 +5,21 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import edu.swjtuhc.cgService.model.Article;
 import edu.swjtuhc.cgService.model.SysUser;
 
 @Mapper
 public interface UserMapper {
 	SysUser getUserByAccount(String account);
+	SysUser getUserByPassword(String password);
 	Integer createUser(SysUser sysUser);	
-	Integer changePassword(String account, String password);
+	Integer changePassword(SysUser sysUser);
 	Integer updateUser(SysUser sysUser);
+
 	Integer deleteUser(Long uId);
 	SysUser getUserById(Long uId); 
+
+	Integer deleteUser(SysUser sysUser);
+	public List<SysUser> selectUser();
+	public List<SysUser> selectUserById();
 }

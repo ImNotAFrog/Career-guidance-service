@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.swjtuhc.cgService.mapper.TeacherTimeMapper">
+	<resultMap id="TResultMap"
+		type="edu.swjtuhc.cgService.model.TeacherTime">
+		<id column="t_id" property="tId" jdbcType="BIGINT" />
+		<id column="u_id" property="uId" jdbcType="BIGINT" />
+		<id column="s_id" property="sId" jdbcType="BIGINT" />
+	<result column="free_top"
+			property="freeTop" jdbcType="VARCHAR"
+			 
+			/>
+	<result column="free_down"
+			property="freeDown" jdbcType="VARCHAR"
+			
+			 />
+			 <result column="time_name"
+			property="timeName" jdbcType="VARCHAR"
+			
+			 />
+	</resultMap>	
+<sql id="Base_Column_List">
+		free_Top,free_down
+	</sql>
+	<sql id="Name_Column_List">
+		time_name,t_id
+	</sql>
+<insert id="createTime"
+		parameterType="edu.swjtuhc.cgService.model.TeacherTime">
+		INSERT INTO
+		teacher_timetable
+		(t_id,u_id,s_id,free_top,free_down,time_name)
+		values
+		(#{tId},#{uId},#{sId},#{freeTop},#{freeDown},#{timename})
+	</insert>
+	<update id="updateTime"
+		parameterType="edu.swjtuhc.cgService.model.TeacherTime">
+		UPDATE
+		teacher_timetable
+		SET
+		free_top = #{freeTop},free_down =
+		#{freeDown}
+		WHERE
+		t_id = #{tId}
+	</update>
+	<delete id="deleteTime" parameterType="java.lang.Long">
+		DELETE FROM
+		teacher_timetable
+		WHERE
+		t_id = #{tId}
+	</delete>
+	<select id="selectTime" parameterType="java.lang.String"
+		resultMap="TResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from teacher_timetable
+		WHERE
+		t_id = #{tId}
+	</select>
+	<select id="selectName" parameterType="java.lang.String"
+		resultMap="TResultMap">
+		select
+		<include refid="Name_Column_List"></include>
+		from teacher_timetable
+	</select>
+</mapper> 

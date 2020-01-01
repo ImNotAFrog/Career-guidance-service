@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.swjtuhc.cgService.mapper.NewsJpgMapper">
+	<resultMap id="TResultMap"
+		type="edu.swjtuhc.cgService.model.NewsJpg">
+		<id column="j_id" property="jId" jdbcType="BIGINT" />
+	<result column="j_name" property="jName" jdbcType="VARCHAR" />
+	<result column="poster" property="Poster" jdbcType="VARCHAR" />
+	</resultMap>	
+
+<insert id="createJpg"
+		parameterType="edu.swjtuhc.cgService.model.NewsJpg">
+		INSERT INTO
+		news_jpg
+		(j_id,j_name,poster)
+		values
+		(#{jId},#{jName},#{Poster})
+	</insert>
+	
+</mapper> 

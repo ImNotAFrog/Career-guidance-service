@@ -2,7 +2,7 @@ jwt:
   header: Authorization
   secret: swjtuhcxxgcx
   expiration: 604800
-  tokenHead: "Bearer "
+  tokenHead: "Bearer"
   route:
     authentication:
       login: "auth/login"

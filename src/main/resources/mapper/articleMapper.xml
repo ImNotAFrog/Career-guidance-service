@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.swjtuhc.cgService.mapper.articleMapper">
+	<resultMap id="AResultMap"
+		type="edu.swjtuhc.cgService.model.Article">
+		<id column="a_id" property="aId" jdbcType="BIGINT" />
+		<id column="u_id" property="uId" jdbcType="BIGINT" />
+		<result column="a_article" property="article" jdbcType="VARCHAR" />
+		<result column="a_name" property="aname" jdbcType="VARCHAR" />
+		<result column="a_uploader" property="auploader" jdbcType="VARCHAR" />
+		<result column="a_publishDate"
+			property="apublishDate" jdbcType="TIMESTAMP"
+			javaType="java.sql.Timestamp" />
+	</resultMap>	
+	<sql id="Base_Column_List">
+		a_id,a_article,a_uploader,a_publishDate,a_name,u_Id
+	</sql>
+	<sql id="name_time_Column_List">
+		a_publishDate,a_name
+	</sql>
+<insert id="createArticle"
+		parameterType="edu.swjtuhc.cgService.model.Article">
+		INSERT INTO
+		article
+		(a_id,a_publishDate,a_article,a_uploader,a_name,u_Id)
+		values
+		(#{aId},#{apublishDate},#{article},#{auploader},#{aname},#{uId})
+	</insert>
+	<select id="getArticle" parameterType="java.lang.String"
+		resultMap="AResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from article
+		where a_id = #{aId}
+	</select>
+	<update id="updateArticle"
+		parameterType="edu.swjtuhc.cgService.model.Article">
+		UPDATE
+		article
+		SET
+		a_article = #{article},a_uploader =
+		#{auploader},a_publishDate=#{apublishDate},a_name=#{aname}
+		WHERE
+		a_id = #{aId}
+	</update>
+	<delete id="deleteArticle" parameterType="java.lang.Long">
+		DELETE FROM
+		article
+		Where
+		a_id = #{aId}
+	</delete>
+	<select id="selectAllArticle" parameterType="java.lang.String"
+		resultMap="AResultMap">
+		select
+		*
+		from article
+		WHERE
+		a_id = #{aId}
+	</select>
+	<select id="selectArticle" parameterType="java.lang.String"
+		resultMap="AResultMap">
+		select
+		<include refid="name_time_Column_List"></include>
+		from article
+	</select>
+</mapper> 
