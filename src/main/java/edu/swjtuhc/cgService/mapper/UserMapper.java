@@ -15,10 +15,10 @@ public interface UserMapper {
 	Integer createUser(SysUser sysUser);	
 	Integer changePassword(SysUser sysUser);
 	Integer updateUser(SysUser sysUser);
-
+	
 	Integer deleteUser(Long uId);
 	SysUser getUserById(Long uId); 
-
+	
 	Integer deleteUser(SysUser sysUser);
 	public List<SysUser> selectUser();
 	public List<SysUser> selectUserById();

@@ -17,11 +17,7 @@
 		<result column="roles" property="roles"
 			typeHandler="edu.swjtuhc.cgService.handler.StringListHandler"
 			javaType="java.util.List" jdbcType="VARCHAR" />
-<<<<<<< HEAD
-	</resultMap>
-=======
 	</resultMap>		
->>>>>>> branch 'master' of https://github.com/ImNotAFrog/Career-guidance-service.git
 	<sql id="Base_Column_List">
 		u_id,account,password,roles,last_password_reset_date
 	</sql>
@@ -84,9 +80,6 @@
 		Where
 		u_id = #{uId}
 	</delete>
-<<<<<<< HEAD
-	
-=======
 <select id="selectUserById" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select
@@ -100,5 +93,4 @@
 		<include refid="Base_Account_List"></include>
 		from sys_user
 	</select>
->>>>>>> branch 'master' of https://github.com/ImNotAFrog/Career-guidance-service.git
 </mapper> 
