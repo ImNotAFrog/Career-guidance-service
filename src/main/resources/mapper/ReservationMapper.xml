@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.swjtuhc.cgService.mapper.ReservationMapper">
+	<resultMap id="ReservationResultMap"
+		type="edu.swjtuhc.cgService.model.Reservation">
+		<id column="r_id" property="rId" jdbcType="BIGINT"></id>
+		<result column="u_id" property="uId" jdbcType="BIGINT" />
+		<result column="tName" property="tName" jdbcType="VARCHAR" />
+		<result column="uName" property="uName" jdbcType="VARCHAR" />
+		<result column="project" property="project" jdbcType="VARCHAR" />
+		<result column="time" property="time" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Reservation_Column_List">
+	r_id,u_id,tName,uName,project,time
+	</sql>
+	
+	<insert id="createReservation"
+		parameterType="edu.swjtuhc.cgService.model.Reservation">
+		INSERT INTO
+		reservation_information
+		(r_id,u_id,tName,uName,project,time)
+		values
+		(#{rId},#{uId},#{tName},#{uName},#{project},#{time})
+	</insert>
+	<insert id="updateReservation"
+		parameterType="edu.swjtuhc.cgService.model.Reservation">
+		UPDATE
+		reservation_information
+		SET tName=#{tName},
+			uName=#{uName},
+			project=#{project},
+			time=#{time}
+		WHERE r_id=#{rId}
+	</insert>
+	<insert id="deleteReservation"
+		parameterType="edu.swjtuhc.cgService.model.Reservation">
+		DELETE FROM
+		reservation_information
+		WHERE r_id=#{rId}
+	</insert>
+	<select id="getReservation" resultMap="ReservationResultMap">
+	SELECT r_id from reservation_information
+	</select>
+	<select id="getAllReservation" resultMap="ReservationResultMap">
+	SELECT * from reservation_information
+	WHERE r_id=#{rId}
+	</select>
+</mapper>
