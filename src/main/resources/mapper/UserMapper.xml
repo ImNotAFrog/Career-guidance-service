@@ -17,7 +17,7 @@
 		<result column="roles" property="roles"
 			typeHandler="edu.swjtuhc.cgService.handler.StringListHandler"
 			javaType="java.util.List" jdbcType="VARCHAR" />
-	</resultMap>
+	</resultMap>		
 	<sql id="Base_Column_List">
 		u_id,account,password,roles,last_password_reset_date
 	</sql>
