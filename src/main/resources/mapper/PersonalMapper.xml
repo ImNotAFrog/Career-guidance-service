@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.swjtuhc.cgService.mapper.PersonalMapper">
+	<resultMap id="PersonalResultMap"
+	type="edu.swjtuhc.cgService.model.Personal">
+	<id column="p_id" property="pId" jdbcType="BIGINT"/>
+	<result column="uName" property="uName" jdbcType="VARCHAR" />
+		<result column="uSex" property="uSex" jdbcType="VARCHAR" />
+		<result column="uPhone" property="uPhone" jdbcType="VARCHAR" />
+		<result column="uWeixin" property="uWeixin" jdbcType="VARCHAR" />
+		<result column="uEmail" property="uEmail" jdbcType="VARCHAR" />
+		<result column="uMajor" property="uMajor" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Personal_Column_List">
+		p_id,uName,uSex,uPhone,uWeixin,uEmail,uMajor
+	</sql>
+	
+	<insert id="createPersonal"
+		parameterType="edu.swjtuhc.cgService.model.Personal">
+		INSERT INTO
+		personal_center
+		(p_id,uName,uSex,uPhone,uWeixin,uEmail,uMajor)
+		values
+		(#{pId},#{uName},#{uSex},#{uPhone},#{uWeixin},#{uEmail},#{uMajor})
+		
+	</insert>
+	<insert id="updatePersonal"
+		parameterType="edu.swjtuhc.cgService.model.Personal">
+		UPDATE 
+		personal_center
+		SET uName = #{uName},
+			uSex = #{uSex},
+			uPhone = #{uPhone},
+			uWeixin = #{uWeixin},
+			uEmail = #{uEmail},
+			uMajor = #{uMajor}
+		WHERE  p_id = #{pId} 
+	</insert>
+	<insert id="deletePersonal"
+		parameterType="edu.swjtuhc.cgService.model.Personal">
+		DELETE FROM  personal_center
+		WHERE  p_id = #{pId} 
+	</insert>
+	<select id="getPersonal" resultMap="PersonalResultMap">
+	SELECT p_id from personal_center
+	</select>
+	<select id="getAllPersonal" resultMap="PersonalResultMap">
+	SELECT * from  personal_center 
+	WHERE p_id = #{pId}
+	</select>
+</mapper> 
