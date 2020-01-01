@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.swjtuhc.cgService.mapper.TeacherMapper">
+	<resultMap id="TeacherResultMap"
+	type="edu.swjtuhc.cgService.model.Teacher">
+	<id column="t_center_id" property="tCenterId" jdbcType="BIGINT"/>
+			<result column="tSex" property="tSex" jdbcType="VARCHAR" />
+		<result column="tName" property="tName" jdbcType="VARCHAR" />
+		<result column="tMajor" property="tMajor" jdbcType="VARCHAR" />
+		<result column="tSynopsis" property="tSynopsis" jdbcType="VARCHAR" />
+			<result column="tPhone" property="tPhone" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	<sql id="Teacher_Column_List">
+		t_center_id,tSex,tName,tMajor,tSynopsis,tPhone
+	</sql>
+	
+	<insert id="createTeacher"
+		parameterType="edu.swjtuhc.cgService.model.Teacher">
+		INSERT INTO
+		teacher_center
+		(t_center_id,tSex,tName,tMajor,tSynopsis,tPhone)
+		values
+		(#{tCenterId},#{tSex},#{tName},#{tMajor},#{tSynopsis},#{tPhone})
+		
+	</insert>
+	<insert id="updateTeacher"
+		parameterType="edu.swjtuhc.cgService.model.Teacher">
+		UPDATE 
+		teacher_center
+		SET tSex=#{tSex},
+			tName=#{tName},
+			tMajor=#{tMajor},
+			tPhone=#{tPhone},
+			tSynopsis=#{tSynopsis}
+		WHERE   t_center_id = #{tCenterId}
+	</insert>
+	<insert id="deleteTeacher"
+		parameterType="edu.swjtuhc.cgService.model.Teacher">
+		DELETE FROM  teacher_center
+		WHERE  t_center_id = #{tCenterId}
+	</insert>
+	<select id="getTeacher" resultMap="TeacherResultMap">
+	SELECT t_center_id from teacher_center
+	</select>
+	<select id="getAllTeacher" resultMap="TeacherResultMap">
+	SELECT * from  teacher_center 
+	WHERE  t_center_id = #{tCenterId}
+	</select>
+</mapper> 
