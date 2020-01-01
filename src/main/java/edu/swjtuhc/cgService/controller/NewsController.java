@@ -1,5 +1,7 @@
 package edu.swjtuhc.cgService.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,8 +32,11 @@ public class NewsController {
         		result.put("msg", "标题不能为空");
         	}else if(i==-3) {
         		result.put("state","fail");
-        		result.put("msg", "链接已存在");
+        		result.put("msg", "图片路径不能为空");
         	}else if(i==-4) {
+        		result.put("state","fail");
+        		result.put("msg", "链接已存在");
+        	}else if(i==-5) {
         		result.put("state","fail");
         		result.put("msg", "标题已存在");
         	}else if(i==0) {
@@ -49,7 +54,7 @@ public class NewsController {
 		return result;
 	}
 	@RequestMapping(value="/update",method=RequestMethod.POST)
-		public JSONObject modify(@RequestBody News n) {
+		public JSONObject update(@RequestBody News n) {
 			JSONObject result = new JSONObject(); 
 			try {
 				int i = newsService.updateNews(n);
@@ -57,6 +62,9 @@ public class NewsController {
 	        		result.put("state","fail");
 	        		result.put("msg", "标题不能为空");
 	        	}else if(i==-2) {
+	        		result.put("state","fail");
+	        		result.put("msg", "图片路径不能为空");
+	        	}else if(i==-3) {
 	        		result.put("state","fail");
 	        		result.put("msg", "标题已存在");
 	        	}else if(i==0) {
@@ -73,4 +81,35 @@ public class NewsController {
 			}
 			return result;
 	}
+	@RequestMapping(value="/delete",method=RequestMethod.POST)
+	public JSONObject delete(@RequestBody News n) {
+		JSONObject result = new JSONObject(); 
+		try {
+			int i = newsService.deleteNews(n);
+			 if(i==-1) {
+        		result.put("state","fail");
+        		result.put("msg", "编号不能为空");
+        	}else if(i==0) {
+        		result.put("state","fail");
+        		result.put("msg", "内部错误");
+        	}else if(i==1) {
+        		result.put("state","success");
+        		result.put("msg", "删除成功");
+        	}
+		} catch (Exception e) {
+			e.printStackTrace(); 
+			result.put("state","fail");
+    		result.put("msg", "服务器内部错误");
+		}
+		return result;
+}
+	@RequestMapping(value="/getnews",method=RequestMethod.GET)
+	public List<News> getList(){
+		return newsService.getNewsList();
+	}
+	@RequestMapping(value="/getAllnews",method=RequestMethod.GET)
+	public List<News> getList2(){
+		return newsService.getAllNewsList();
+	}
+
 }

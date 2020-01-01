@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE  mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.swjtuhc.cgService.mapper.NewsMapper">
 	<resultMap id="NewsResultMap"
 	type="edu.swjtuhc.cgService.model.News">
 	<id column="n_id" property="nId" jdbcType="BIGINT" />
 		<result column="nName" property="nName" jdbcType="VARCHAR" />
 		<result column="nUrl" property="nUrl" jdbcType="VARCHAR" />
+		<result column="nPicturePath" property="nPicturePath" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="News_Column_List">
-		n_id,nName,nUrl
+		n_id,nName,nUrl,nPicturePath
 	</sql>
 
 
@@ -28,21 +29,41 @@
 		from news
 		where nName = #{nName}
 	</select>
-
+	<select id="getNewsBynPicturePath" parameterType="java.lang.String"
+		resultMap="NewsResultMap">
+		select
+		<include refid="News_Column_List"></include>
+		from news
+		where nPicturePath = #{nPicturePath}
+	</select>
 	<insert id="createNews"
 		parameterType="edu.swjtuhc.cgService.model.News">
 		INSERT INTO
 		news
-		(n_id,nName,nUrl)
+		(n_id,nName,nUrl,nPicturePath)
 		values
-		(#{nId},#{nName},#{nUrl})
+		(#{nId},#{nName},#{nUrl},#{nPicturePath})
 	</insert>
 	
 	<insert id="updateNews"
 		parameterType="edu.swjtuhc.cgService.model.News">
 		UPDATE news
-		SET nName = #{nName}
-		WHERE  n_id = #{nId}
+		SET nName = #{nName},nPicturePath = #{nPicturePath}
+		WHERE  n_id = #{nId} 
 	</insert>
 	
+	<insert id="deleteNews"
+		parameterType="edu.swjtuhc.cgService.model.News">
+		DELETE FROM
+		news
+		WHERE n_id = #{nId} 
+	</insert>
+	
+	<select id="getNews" resultMap="NewsResultMap">
+	SELECT nName from news
+	</select>
+	<select id="getAllNews" resultMap="NewsResultMap">
+	SELECT * from news
+	WHERE n_id = #{nId}
+	</select>
 </mapper> 
